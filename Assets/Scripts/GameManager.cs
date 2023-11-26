@@ -31,12 +31,17 @@ public class GameManager : MonoBehaviour
 
 [SerializeField]
     private GameObject camera;
+
+[SerializeField]
+    private TMP_Text scoreText;
     
     public static GameManager Instance;
  
     void Start()
     {
         Instance = this;
+
+UpdateScoreText();
 
 camera = Camera.main.gameObject;
         CameraBehindCueBall();
@@ -102,4 +107,9 @@ camera.transform.eulerAngles = new Vector3(30f, 0f, 0f);
 
 ballLine.SetActive(true);
     }
+
+public void UpdateScoreText()
+{
+scoreText.text = $"Player Score: {playerScore}";
+}
 }
