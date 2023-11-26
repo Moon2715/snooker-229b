@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
@@ -10,35 +13,53 @@ public class GameManager : MonoBehaviour
         get { return playScore; } 
         set { playScore = value; }
     }
+ 
     [SerializeField]
     private GameObject ballPrefab;
+ 
     [SerializeField]
     private GameObject[] ballPositions;
-    public static GameManager Instance;
 
+    [SerializeField]
+    private GameObject cueBall;
+
+    [SerializeField] 
+    private GameObject ballLine;
+
+[SerializeField]
+    private float xInput;
+    
+    public static GameManager Instance;
+ 
     void Start()
     {
         Instance = this;
-        SetBall(BallColor.White, 0);
-        SetBall(BallColor.Red, 1);
+        SetBall(BallColor.Red,    1);
         SetBall(BallColor.Yellow, 2);
-        SetBall(BallColor.Green, 3);
-        SetBall(BallColor.Brown, 4);
-        SetBall(BallColor.Blue, 5);
-        SetBall(BallColor.Pink, 6);
-        SetBall(BallColor.Black, 7);
+        SetBall(BallColor.Green,  3);
+        SetBall(BallColor.Brown,  4);
+        SetBall(BallColor.Blue,   5);
+        SetBall(BallColor.Pink,   6);
+        SetBall(BallColor.Black,  7);    
     }
 
-void Update()
-{
+    void Update()
+    {
+       RotateBall();
+    }
 
-}
     private void SetBall(BallColor col, int i)
     {
         GameObject obj = Instantiate(ballPrefab,
-            ballPositions[i].transform.position,
-            Quaternion.identity);
+                         ballPositions[i].transform.position,
+                         Quaternion.identity);
         Ball b = obj.GetComponent<Ball>();
         b.SetColorAndPoint(col);
+    }
+
+    private void RotateBall()
+    {
+        xInput = Input.GetAxis("Horizontal");
+        cueBall.transform.Rotate(new Vector3(0f, xInput/5, 0f));
     }
 }
